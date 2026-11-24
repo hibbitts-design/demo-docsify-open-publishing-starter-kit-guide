@@ -19,7 +19,7 @@ Docsify-This and a Grav reader complement each other:
 
 | Use case | Better fit |
 |----------|-----------|
-| Full structured reader with sidebar nav | Grav (this site) |
+| Full structured reader with sidebar nav | Grav, or a Docsify site like this one |
 | Quick share of a single page or handout | Docsify-This |
 | Embedding one page into an LMS | Either (both support `?chromeless=true`) |
 | Multi-author, Admin Panel editing | Grav |

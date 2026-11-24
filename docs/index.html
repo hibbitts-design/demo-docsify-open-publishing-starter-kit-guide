@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="sticky-pagination">
 
 <head>
   <meta charset="UTF-8">
@@ -163,7 +163,6 @@
       // -----------------------------------------------------------------
       name: 'Open Education Essentials',
       homepage: 'home.md',
-      // coverpage: '_coverpage.md',
       loadSidebar: !(getURLParameterByName(['standalone', 'embedded']) || standalone || false),
       loadNavbar: !(getURLParameterByName(['standalone', 'embedded']) && !(getURLParameterByName('navbar')) || standalone && !navbar || false),
       mergeNavbar: false,
@@ -195,7 +194,7 @@
         namespace: 'docsify-open-publishing-starter-kit' + Date.now(),
         hideOtherSidebarContent: false, // whether or not to hide other sidebar content
         pathNamespaces: /^\/[^\/]+(?=\/)/, // a separate search index for each top-level folder (each course or guide)
-        insertAfter: '.app-name',
+        insertBefore: '.sidebar-nav', // the search box goes below the site name
       },
 
       pagination: {
@@ -454,6 +453,37 @@
   <!-- Pagination Plugin -->
   <!-- https://cdn.jsdelivr.net/npm/docsify-pagination@2.10.1/dist/docsify-pagination.min.js -->
   <script src="assets/js/docsify-pagination.min.js"></script>
+
+  <!-- Hide the page while Previous/Next loads (no flash of the new page before it scrolls to the top) -->
+  <script>
+    window.$docsify.plugins = (window.$docsify.plugins || []).concat(function (hook) {
+      var showTimer;
+      function showPage() {
+        var main = document.querySelector('.markdown-section');
+        if (main) main.style.visibility = '';
+      }
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest && e.target.closest('.pagination-item a');
+        if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var main = document.querySelector('.markdown-section');
+        if (!main) return;
+        main.style.visibility = 'hidden';
+        link.closest('.docsify-pagination-container').style.visibility = 'visible'; // the bar is inside the page; keep it showing
+        clearTimeout(showTimer);
+        showTimer = setTimeout(showPage, 3000); // safety net if loading fails
+      });
+      hook.doneEach(showPage); // Docsify has already scrolled to the top by now
+    });
+  </script>
+
+  <!-- Arrow Keys Plugin: ← and → go to the previous and next page (as in Grav Open Publishing Space) -->
+  <script src="assets/js/docsify-arrow-keys.js"></script>
+
+  <!-- Keep My Place Plugin: a "Continue reading" bar on the home page, or on each guide's home page (remove this line to turn it off) -->
+  <script src="assets/js/docsify-keep-my-place.js"></script>
+
+  <!-- Page Titles Plugin: each page's heading and the site's name in the browser tab -->
+  <script src="assets/js/docsify-page-titles.js"></script>
 
   <!-- Docsify Browser-level Image Lazy Loading Plugin -->
   <!-- <script src="//cdn.jsdelivr.net/npm/@sy-records/docsify-loading/lib/index.min.js"></script> -->

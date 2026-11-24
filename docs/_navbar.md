@@ -1,1 +1,2 @@
-
+- [GitHub Repository](https://github.com/hibbitts-design/docsify-open-publishing-starter-kit/)
+- [ReadMe](https://github.com/hibbitts-design/docsify-open-publishing-starter-kit/blob/main/README.md)
